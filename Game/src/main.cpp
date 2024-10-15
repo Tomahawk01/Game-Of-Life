@@ -1,9 +1,12 @@
+#include "Simulation.h"
+
 #include <raylib.h>
 
-#include "Grid.h"
+#include <iostream>
 
+// NOTE: 32x32 grid
 #define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
+#define WINDOW_HEIGHT 800
 #define FPS 15
 
 #define CELL_SIZE 25
@@ -15,15 +18,21 @@ int main()
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Game of Life");
 	SetTargetFPS(FPS);
 
-	Grid grid{ WINDOW_WIDTH, WINDOW_HEIGHT, CELL_SIZE };
-	grid.SetValue(10, 1, 1);
-	grid.SetValue(3, 12, 1);
+	Simulation simulation{ WINDOW_WIDTH, WINDOW_HEIGHT, CELL_SIZE };
+	simulation.SetCellValue(5, 31, 1);
+	simulation.SetCellValue(6, 0, 1);
+	simulation.SetCellValue(5, 0, 1);
+	simulation.SetCellValue(4, 0, 1);
+
+	std::cout << simulation.CountLiveNeighbors(5, 31) << std::endl;
 
 	while (!WindowShouldClose())
 	{
 		BeginDrawing();
+
 		ClearBackground(clearColor);
-		grid.Draw();
+		simulation.Draw();
+
 		EndDrawing();
 	}
 

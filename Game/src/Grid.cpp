@@ -2,10 +2,12 @@
 
 #include <raylib.h>
 
-Grid::Grid(int Width, int Height, int CellSize)
-	: m_Rows{ Height / CellSize },
-	m_Columns{ Width / CellSize },
-	m_CellSize{ CellSize },
+#include <utility>
+
+Grid::Grid(int width, int height, int cellSize)
+	: m_Rows{ height / cellSize },
+	m_Columns{ width / cellSize },
+	m_CellSize{ cellSize },
 	m_Cells(m_Rows, std::vector<int>(m_Columns, 0))
 {}
 
@@ -21,11 +23,31 @@ void Grid::Draw()
 	}
 }
 
-void Grid::SetValue(int Row, int Column, int Value)
+void Grid::SetValue(int row, int column, int value)
 {
-	if (Row >= 0 && Row < m_Rows &&
-		Column >= 0 && Column < m_Columns)
+	if (IsWithinBounds(row, column))
 	{
-		m_Cells[Row][Column] = Value;
+		m_Cells[row][column] = value;
 	}
+}
+
+int Grid::GetValue(int row, int column)
+{
+	if (IsWithinBounds(row, column))
+	{
+		return m_Cells[row][column];
+	}
+
+	return 0;
+}
+
+bool Grid::IsWithinBounds(int row, int column)
+{
+	if (row >= 0 && row < m_Rows &&
+		column >= 0 && column < m_Columns)
+	{
+		return true;
+	}
+
+	return false;
 }
