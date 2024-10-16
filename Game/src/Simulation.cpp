@@ -1,8 +1,11 @@
 #include "Simulation.h"
 
 Simulation::Simulation(int width, int height, int cellSize)
-	: m_Grid{ width, height, cellSize }
-{}
+	: m_Grid{ width, height, cellSize },
+	m_TempGrid{ width, height, cellSize }
+{
+	m_Grid.FillRandom();
+}
 
 void Simulation::Draw()
 {
@@ -39,4 +42,33 @@ int Simulation::CountLiveNeighbors(int row, int column)
 	}
 
 	return liveNeighbors;
+}
+
+void Simulation::Update()
+{
+	for (int row = 0; row < m_Grid.GetRows(); row++)
+	{
+		for (int column = 0; column < m_Grid.GetColumns(); column++)
+		{
+			int liveNeighbors = CountLiveNeighbors(row, column);
+			int cellValue = m_Grid.GetValue(row, column);
+
+			if (cellValue == 1)
+			{
+				if (liveNeighbors > 3 || liveNeighbors < 2)
+					m_TempGrid.SetValue(row, column, 0);
+				else
+					m_TempGrid.SetValue(row, column, 1);
+			}
+			else
+			{
+				if (liveNeighbors == 3)
+					m_TempGrid.SetValue(row, column, 1);
+				else
+					m_TempGrid.SetValue(row, column, 0);
+			}
+		}
+	}
+
+	m_Grid = m_TempGrid;
 }

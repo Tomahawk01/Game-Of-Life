@@ -19,20 +19,14 @@ int main()
 	SetTargetFPS(FPS);
 
 	Simulation simulation{ WINDOW_WIDTH, WINDOW_HEIGHT, CELL_SIZE };
-	simulation.SetCellValue(5, 31, 1);
-	simulation.SetCellValue(6, 0, 1);
-	simulation.SetCellValue(5, 0, 1);
-	simulation.SetCellValue(4, 0, 1);
-
-	std::cout << simulation.CountLiveNeighbors(5, 31) << std::endl;
 
 	while (!WindowShouldClose())
 	{
-		BeginDrawing();
+		simulation.Update();
 
+		BeginDrawing();
 		ClearBackground(clearColor);
 		simulation.Draw();
-
 		EndDrawing();
 	}
 

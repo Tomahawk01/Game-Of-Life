@@ -12,6 +12,8 @@ public:
 	int GetValue(int row, int column);
 	bool IsWithinBounds(int row, int column);
 
+	void FillRandom();
+
 	inline const int GetRows() { return m_Rows; }
 	inline const int GetColumns() { return m_Columns; }
 
