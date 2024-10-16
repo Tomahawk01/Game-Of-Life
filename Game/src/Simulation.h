@@ -15,7 +15,7 @@ public:
 	void CreateRandomState();
 	void ToggleCell(int row, int column);
 
-	inline const bool IsRunning() { return m_Running; }
+	inline const bool IsRunning() const { return m_Running; }
 	inline const void Start() { m_Running = true; }
 	inline const void Stop() { m_Running = false; }
 

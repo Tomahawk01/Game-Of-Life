@@ -10,7 +10,8 @@
 int main()
 {
 	Color clearColor = { 50, 50, 50, 255 };
-	int FPS = 10;
+	int FPS = 15;
+	bool IsUnlimitedFPS = false;
 
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Game of Life");
 	SetTargetFPS(FPS);
@@ -23,8 +24,8 @@ int main()
 		if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
 		{
 			Vector2 mousePos = GetMousePosition();
-			int row = mousePos.y / CELL_SIZE;
-			int column = mousePos.x / CELL_SIZE;
+			int row = static_cast<int>(mousePos.y) / CELL_SIZE;
+			int column = static_cast<int>(mousePos.x) / CELL_SIZE;
 
 			simulation.ToggleCell(row, column);
 		}
@@ -41,7 +42,7 @@ int main()
 		}
 		else if (IsKeyPressed(KEY_LEFT))
 		{
-			if (FPS > 3)
+			if (FPS > 5)
 			{
 				FPS--;
 				SetTargetFPS(FPS);
@@ -60,12 +61,19 @@ int main()
 		{
 			simulation.ClearGrid();
 		}
+		else if (IsKeyPressed(KEY_V))
+		{
+			IsUnlimitedFPS = !IsUnlimitedFPS;
+			SetTargetFPS(IsUnlimitedFPS ? 0 : FPS);
+		}
 
 		simulation.Update();
 
 		BeginDrawing();
 		ClearBackground(clearColor);
 		simulation.Draw();
+		DrawRectangle(6, 9, 100, 20, Color{ 20, 20, 20, 180 });
+		DrawFPS(10, 10);
 		EndDrawing();
 	}
 

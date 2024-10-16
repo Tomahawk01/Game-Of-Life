@@ -17,8 +17,8 @@ public:
 
 	void ToggleCell(int row, int column);
 
-	inline const int GetRows() { return m_Rows; }
-	inline const int GetColumns() { return m_Columns; }
+	inline const int GetRows() const { return m_Rows; }
+	inline const int GetColumns() const { return m_Columns; }
 
 private:
 	int m_Rows;
