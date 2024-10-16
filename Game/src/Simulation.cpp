@@ -2,10 +2,9 @@
 
 Simulation::Simulation(int width, int height, int cellSize)
 	: m_Grid{ width, height, cellSize },
-	m_TempGrid{ width, height, cellSize }
-{
-	m_Grid.FillRandom();
-}
+	m_TempGrid{ width, height, cellSize },
+	m_Running{ false }
+{}
 
 void Simulation::Draw()
 {
@@ -46,29 +45,50 @@ int Simulation::CountLiveNeighbors(int row, int column)
 
 void Simulation::Update()
 {
-	for (int row = 0; row < m_Grid.GetRows(); row++)
+	if (IsRunning())
 	{
-		for (int column = 0; column < m_Grid.GetColumns(); column++)
+		for (int row = 0; row < m_Grid.GetRows(); row++)
 		{
-			int liveNeighbors = CountLiveNeighbors(row, column);
-			int cellValue = m_Grid.GetValue(row, column);
+			for (int column = 0; column < m_Grid.GetColumns(); column++)
+			{
+				int liveNeighbors = CountLiveNeighbors(row, column);
+				int cellValue = m_Grid.GetValue(row, column);
 
-			if (cellValue == 1)
-			{
-				if (liveNeighbors > 3 || liveNeighbors < 2)
-					m_TempGrid.SetValue(row, column, 0);
+				if (cellValue == 1)
+				{
+					if (liveNeighbors > 3 || liveNeighbors < 2)
+						m_TempGrid.SetValue(row, column, 0);
+					else
+						m_TempGrid.SetValue(row, column, 1);
+				}
 				else
-					m_TempGrid.SetValue(row, column, 1);
-			}
-			else
-			{
-				if (liveNeighbors == 3)
-					m_TempGrid.SetValue(row, column, 1);
-				else
-					m_TempGrid.SetValue(row, column, 0);
+				{
+					if (liveNeighbors == 3)
+						m_TempGrid.SetValue(row, column, 1);
+					else
+						m_TempGrid.SetValue(row, column, 0);
+				}
 			}
 		}
-	}
 
-	m_Grid = m_TempGrid;
+		m_Grid = m_TempGrid;
+	}
+}
+
+void Simulation::ClearGrid()
+{
+	if (!IsRunning())
+		m_Grid.Clear();
+}
+
+void Simulation::CreateRandomState()
+{
+	if (!IsRunning())
+		m_Grid.FillRandom();
+}
+
+void Simulation::ToggleCell(int row, int column)
+{
+	if (!IsRunning())
+		m_Grid.ToggleCell(row, column);
 }

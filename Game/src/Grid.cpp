@@ -63,3 +63,20 @@ void Grid::FillRandom()
 		}
 	}
 }
+
+void Grid::Clear()
+{
+	for (int row = 0; row < m_Rows; row++)
+	{
+		for (int column = 0; column < m_Columns; column++)
+		{
+			m_Cells[row][column] = 0;
+		}
+	}
+}
+
+void Grid::ToggleCell(int row, int column)
+{
+	if (IsWithinBounds(row, column))
+		m_Cells[row][column] = !m_Cells[row][column];
+}

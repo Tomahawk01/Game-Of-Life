@@ -13,6 +13,9 @@ public:
 	bool IsWithinBounds(int row, int column);
 
 	void FillRandom();
+	void Clear();
+
+	void ToggleCell(int row, int column);
 
 	inline const int GetRows() { return m_Rows; }
 	inline const int GetColumns() { return m_Columns; }
